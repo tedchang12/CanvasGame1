@@ -10,10 +10,21 @@
     <body>
         <div >
         <canvas  id="myCanvas2" onmousedown="getPOS()" width="650" height="650" style="border:1px solid gray"> </canvas>
+        <p id="RECORD">RECORD:0</p>
         </div>
         <script>
             var monaryPOS = new Array(100);
             var monnowPOS = new Array(100);
+            var rec = setInterval(function(){ setrecord() }, 1000);
+            var S_count=1;
+            var score=1;
+            function setrecord() 
+            {
+                S_count+=1;
+                score+=S_count;
+                document.getElementById("RECORD").innerHTML = "RECORD:"+score;
+            }
+
             function getPOS(curx,cury)
             {
                 var counter = 0;
@@ -119,7 +130,8 @@
                    cxt2.drawImage(rockIMG,0,0,230,240,drawX+2,drawY+2,46,46);
                    if(man_pos==monnowPOS[i])
                    {
-                    //alert("die");
+                    alert("die");
+                    location.reload();
                    }
                 }
 
