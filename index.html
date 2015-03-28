@@ -21,7 +21,8 @@
                 
                 alert(counter);
             }
-
+            var currentX = 50*6;
+            var currentY = 50*6;
 
             //畫線
             var c2=document.getElementById("myCanvas2");
@@ -40,7 +41,12 @@
                 cxt2.lineTo(650,x); 
             }
             cxt2.stroke();
-
+            var manIMG = new Image();
+            manIMG.src="man.png"
+            manIMG.onload = function()
+            {
+                cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
+            }
             
             
         </script>   
