@@ -1,0 +1,49 @@
+<html><head>
+        <meta charset="utf-8">
+        <title>HelloCanvas</title>
+        <!--
+        <meta http-equiv="Refresh" content="3" />
+        -->
+    </head>
+
+
+    <body>
+        <div >
+        <canvas  id="myCanvas2" onmousedown="getPOS()" width="650" height="650" style="border:1px solid gray"> </canvas>
+        </div>
+        <script>
+
+            function getPOS()
+            {
+                var counter = 0;
+                counter += Math.floor(event.x/50);
+                counter += Math.floor(event.y/50)*13;
+                
+                alert(counter);
+            }
+
+
+            //畫線
+            var c2=document.getElementById("myCanvas2");
+            var cxt2=c2.getContext("2d");
+            cxt2.strokeStyle="blue";
+            cxt2.lineWidth="1";
+            //creat a 13*13 cube
+            for(var x=50;x<=650;x+=50)
+            {
+                cxt2.moveTo(x,0);
+                cxt2.lineTo(x,650); 
+            }
+            for(var x=50;x<=650;x+=50)
+            {
+                cxt2.moveTo(0,x);
+                cxt2.lineTo(650,x); 
+            }
+            cxt2.stroke();
+
+            
+            
+        </script>   
+    
+
+</body></html>
