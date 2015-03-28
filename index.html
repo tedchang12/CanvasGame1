@@ -44,6 +44,9 @@
             cxt2.stroke();
             var manIMG = new Image();
             manIMG.src="man.png"
+            var rockIMG = new Image();
+            rockIMG.src="rock.png"
+            var man_pos;
             manIMG.onload = function()
             {
                 cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
@@ -54,7 +57,7 @@
             //40 DOWN
             //37 LEFT
             //39 RIGHT
-            var man_pos = getPOS(currentX,currentY);
+            man_pos = getPOS(currentX,currentY);
             if(event.keyCode==38)//up
             {
                 man_pos-=13;
@@ -81,6 +84,8 @@
             currentX = Math.floor(man_pos%13)*50;
             cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
             });
+
+            
             var monstermove = setInterval(function(){ mon_move() }, 300); //每秒怪物移動
             function mon_move()
             {
@@ -93,7 +98,7 @@
                 {
                    remX = Math.floor(monnowPOS[i]%13)*50;
                    remY = Math.floor(monnowPOS[i]/13)*50;
-                   cxt2.clearRect(remX+0.6,remY+0.9,47,48);
+                   cxt2.clearRect(remX+3,remY+3,46,46);
                    switch(monaryPOS[i])
                    {
                     case 1:
@@ -111,12 +116,16 @@
                    }
                    drawY = Math.floor(monnowPOS[i]/13)*50;
                    drawX = Math.floor(monnowPOS[i]%13)*50;
-                   cxt2.drawImage(manIMG,0,0,80,130,drawX,drawY,50,50);
+                   cxt2.drawImage(rockIMG,0,0,230,240,drawX+2,drawY+2,46,46);
+                   if(man_pos==monnowPOS[i])
+                   {
+                    //alert("die");
+                   }
                 }
 
             }
             var countmon=0;
-            var monster = setInterval(function(){ setmonster() }, 1500); //產生怪物
+            var monster = setInterval(function(){ setmonster() }, 500); //產生怪物
             function setmonster()
             {
 
@@ -146,7 +155,7 @@
                 
                 monsterX = Math.floor(monnowPOS[countmon]%13)*50;
                 monsterY = Math.floor(monnowPOS[countmon]/13)*50+1;
-                cxt2.drawImage(manIMG,0,0,80,130,monsterX,monsterY,50,50);
+                cxt2.drawImage(rockIMG,0,0,230,240,monsterX+2,monsterY+2,46,46);
                 countmon++;
 
             }
