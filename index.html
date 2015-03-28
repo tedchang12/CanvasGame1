@@ -12,7 +12,8 @@
         <canvas  id="myCanvas2" onmousedown="getPOS()" width="650" height="650" style="border:1px solid gray"> </canvas>
         </div>
         <script>
-
+            var monaryPOS = new Array(100);
+            var monnowPOS = new Array(100);
             function getPOS(curx,cury)
             {
                 var counter = 0;
@@ -23,7 +24,7 @@
             }
             var currentX = 50*6;
             var currentY = 50*6;
-
+            var level = 3000;
             //畫線
             var c2=document.getElementById("myCanvas2");
             var cxt2=c2.getContext("2d");
@@ -72,12 +73,83 @@
             {
                 man_pos+=1;
             }
+            var monsterX;
+            var monsterY;
+            var countmon = 0;
             cxt2.clearRect(currentX+0.6,currentY+0.9,47,48);
             currentY = Math.floor(man_pos/13)*50;
             currentX = Math.floor(man_pos%13)*50;
             cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
             });
-            
+            var monstermove = setInterval(function(){ mon_move() }, 300); //每秒怪物移動
+            function mon_move()
+            {
+                
+                var remX;
+                var remY;
+                var drawX;
+                var drawY;
+                for(i=0; i<countmon;i++)
+                {
+                   remX = Math.floor(monnowPOS[i]%13)*50;
+                   remY = Math.floor(monnowPOS[i]/13)*50;
+                   cxt2.clearRect(remX+0.6,remY+0.9,47,48);
+                   switch(monaryPOS[i])
+                   {
+                    case 1:
+                    monnowPOS[i]+=13;
+                    break;
+                    case 2:
+                    monnowPOS[i]-=1;
+                    break;
+                    case 3:
+                    monnowPOS[i]+=1;
+                    break;
+                    case 4:
+                    monnowPOS[i]-=13;
+                    break;
+                   }
+                   drawY = Math.floor(monnowPOS[i]/13)*50;
+                   drawX = Math.floor(monnowPOS[i]%13)*50;
+                   cxt2.drawImage(manIMG,0,0,80,130,drawX,drawY,50,50);
+                }
+
+            }
+            var countmon=0;
+            var monster = setInterval(function(){ setmonster() }, 1500); //產生怪物
+            function setmonster()
+            {
+
+                var monsFrom = Math.floor(Math.random()*4+1);
+                var monsPOS = Math.floor(Math.random()*13);
+                switch(monsFrom)
+                {
+
+                    
+                    case 2://from right
+                    monaryPOS[countmon] = 2;
+                    monnowPOS[countmon] = monsPOS*13+12;
+                    break;
+                    case 3://from left
+                    monaryPOS[countmon] = 3;
+                    monnowPOS[countmon] = monsPOS*13;
+                    break;
+                    case 4://from bottom
+                    monaryPOS[countmon] = 4;
+                    monnowPOS[countmon] = 12*13+monsPOS;
+                    break;
+                    default:
+                    monaryPOS[countmon] = 1;
+                    monnowPOS[countmon] = monsPOS;
+                    break;
+                }
+                
+                monsterX = Math.floor(monnowPOS[countmon]%13)*50;
+                monsterY = Math.floor(monnowPOS[countmon]/13)*50+1;
+                cxt2.drawImage(manIMG,0,0,80,130,monsterX,monsterY,50,50);
+                countmon++;
+
+            }
             
         </script>   
     
