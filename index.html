@@ -105,7 +105,7 @@
                 var remY;
                 var drawX;
                 var drawY;
-                for(i=0; i<countmon;i++)
+                for(i=0; i<countmon;i++)//用算法把超過13的數字移掉
                 {
                    remX = Math.floor(monnowPOS[i]%13)*50;
                    remY = Math.floor(monnowPOS[i]/13)*50;
@@ -117,21 +117,34 @@
                     break;
                     case 2:
                     monnowPOS[i]-=1;
+                    if(Math.floor(monnowPOS[i]%13)==0)
+                    {
+                        console.log(monnowPOS[i]);
+                        monaryPOS[i]=0;
+                    }
                     break;
                     case 3:
                     monnowPOS[i]+=1;
+                    if(Math.floor(monnowPOS[i]%13)==0)
+                    {
+                        monaryPOS[i]=0;
+                        console.log(monnowPOS[i]);
+                    }
                     break;
                     case 4:
                     monnowPOS[i]-=13;
                     break;
                    }
+                   if(monaryPOS[i]!=0)
+                   {
                    drawY = Math.floor(monnowPOS[i]/13)*50;
                    drawX = Math.floor(monnowPOS[i]%13)*50;
                    cxt2.drawImage(rockIMG,0,0,230,240,drawX+2,drawY+2,46,46);
-                   if(man_pos==monnowPOS[i])
+                    }
+                   if(man_pos==monnowPOS[i]&&monaryPOS[i]!=0)
                    {
-                    alert("die");
-                    location.reload();
+                    //alert("die");
+                    //location.reload();
                    }
                 }
 
