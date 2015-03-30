@@ -6,6 +6,6 @@
 我加上了產生坑洞，坑洞被視為一種障礙物，你不能越過他
 
 ##程式ＤＥＭＯ圖片
-[Image of demo](https://github.com/tedchang12/CanvasGame1/blob/master/123.png)
+![Image of demo](https://github.com/tedchang12/CanvasGame1/blob/master/123.png)
 
 
