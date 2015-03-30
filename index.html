@@ -54,16 +54,23 @@
             }
             cxt2.stroke();
             var manIMG = new Image();
-            manIMG.src="man.png"
+            manIMG.src="man.png";
             var rockIMG = new Image();
-            rockIMG.src="rock.png"
+            rockIMG.src="rock.png";
             var man_pos;
             manIMG.onload = function()
             {
                 cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
             }
+            var holeIMG = new Image();
+            holeIMG.src="hole.png";
+            holeIMG.onload = function()
+            {
+                cxt2.drawImage(holeIMG,1,1,330,330,50+1,50+1,47,47);
+            }
 
             document.addEventListener('keydown', function(event) {
+            var judgement = 0;
             //38 UP
             //40 DOWN
             //37 LEFT
@@ -85,19 +92,45 @@
 
             if(event.keyCode==39)//right
             {
-                man_pos+=1;
+               man_pos+=1;
             }
             var monsterX;
             var monsterY;
             var countmon = 0;
-            cxt2.clearRect(currentX+0.6,currentY+0.9,47,48);
-            currentY = Math.floor(man_pos/13)*50;
-            currentX = Math.floor(man_pos%13)*50;
-            cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
-            });
-
+            for(i=0;i<100;i++)
+            {
+                if(man_pos==holePOS[i])
+                {
+                    console.log("losehole");
+                    alert("fall in hole");
+                }
+            }
+                cxt2.clearRect(currentX+0.6,currentY+0.9,47,48);
+                currentY = Math.floor(man_pos/13)*50;
+                currentX = Math.floor(man_pos%13)*50;
+                cxt2.drawImage(manIMG,0,0,80,130,currentX,currentY,50,50);
             
-            var monstermove = setInterval(function(){ mon_move() }, 300); //每秒怪物移動
+            });
+            var icount=0;
+            var holePOS = new Array(100);
+            var holecount = 0;
+            var holeX;
+            var holeY;
+            var createhole = setInterval(function(){sethole()},400);
+            function sethole()//隨機產生坑洞
+            {
+                var ranPOS = Math.random()*13*13-1;
+                if(ranPOS!=man_pos)
+                {
+                holeY = Math.floor(ranPOS/13)*50;
+                holeX = Math.floor(ranPOS%13)*50;
+                holePOS[Math.floor(holecount%100)] = ranPOS;
+                cxt2.drawImage(holeIMG,1,1,330,330,holeX+1,holeY+1,47,47);
+                holecount++;
+                }
+
+            }
+                        var monstermove = setInterval(function(){ mon_move() }, 200); //每秒怪物移動
             function mon_move()
             {
                 
@@ -105,22 +138,30 @@
                 var remY;
                 var drawX;
                 var drawY;
-                for(i=0; i<countmon;i++)//用算法把超過13的數字移掉
+                icount = Math.floor(icount%100);
+                for(i=icount; i<countmon;i++)//用算法把超過13的數字移掉
                 {
                    remX = Math.floor(monnowPOS[i]%13)*50;
                    remY = Math.floor(monnowPOS[i]/13)*50;
-                   cxt2.clearRect(remX+3,remY+3,46,46);
+                    
+                    cxt2.clearRect(remX+3,remY+3,46,46);
+                    
                    switch(monaryPOS[i])
                    {
                     case 1:
                     monnowPOS[i]+=13;
+                    if(monnowPOS[i]>200)
+                    {
+                        icount++;
+                    }
                     break;
                     case 2:
                     monnowPOS[i]-=1;
                     if(Math.floor(monnowPOS[i]%13)==0)
                     {
-                        console.log(monnowPOS[i]);
+                        
                         monaryPOS[i]=0;
+                        icount++;
                     }
                     break;
                     case 3:
@@ -128,14 +169,23 @@
                     if(Math.floor(monnowPOS[i]%13)==0)
                     {
                         monaryPOS[i]=0;
-                        console.log(monnowPOS[i]);
+                        
+                        icount++;
                     }
                     break;
                     case 4:
                     monnowPOS[i]-=13;
+                    if(monnowPOS[i]<0)
+                    {
+                        icount++;
+                    }
+                    break;
+                    default:
+                    icount++;
                     break;
                    }
-                   if(monaryPOS[i]!=0)
+                   
+                   if(monaryPOS[i]!=0&&monaryPOS[i]!=8)
                    {
                    drawY = Math.floor(monnowPOS[i]/13)*50;
                    drawX = Math.floor(monnowPOS[i]%13)*50;
@@ -143,14 +193,16 @@
                     }
                    if(man_pos==monnowPOS[i]&&monaryPOS[i]!=0)
                    {
+                    console.log("lose");
                     //alert("die");
-                    //location.reload();
+                    location.reload();
                    }
                 }
 
+
             }
             var countmon=0;
-            var monster = setInterval(function(){ setmonster() }, 500); //產生怪物
+            var monster = setInterval(function(){ setmonster() }, 400); //產生怪物
             function setmonster()
             {
 
